@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 require "#{File.dirname(__FILE__)}/../lib/cargo/command_helpers.rb"
 
-`CURRENT=\`git branch | grep '\*' | awk '{print $2}'\``
+branch = git_branch
 `git checkout master`
 `git pull origin master`
-`git checkout ${CURRENT}`
+`git checkout #{branch}`
 `git rebase master`

@@ -18,4 +18,4 @@ story_number = Readline.readline "Story number (optional): "
 unless story_number.strip.empty?
   name = "#{name}_#{story+number}"
 end
-sh "git checkout -b #{name}"
+`git checkout -b #{name}`

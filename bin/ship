@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
+require "#{File.dirname(__FILE__)}/../lib/cargo/command_helpers.rb"
 
-`CURRENT=\`git branch | grep '\*' | awk '{print $2}'\``
+branch = git_branch
 `git checkout master`
-`git merge ${CURRENT}`
+`git merge #{branch}`
 `git push origin master`
-`git branch -d ${CURRENT}`
+`git branch -d #{branch}`
