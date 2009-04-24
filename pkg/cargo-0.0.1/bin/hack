@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+`CURRENT=\`git branch | grep '\*' | awk '{print $2}'\``
+`git checkout master`
+`git pull origin master`
+`git checkout ${CURRENT}`
+`git rebase master`
