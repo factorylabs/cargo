@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/lib/cargo'
 
 # Generate all the Rake tasks
 # Run 'rake -T' to see list of generated tasks (from gem root directory)
-$hoe = Hoe.new('cargo', Cargo::VERSION) do |p|
+$hoe = Hoe.new('factorylabs-cargo', Cargo::VERSION) do |p|
   p.developer('Factory Design Labs', 'interactive@factorylabs.com')
   p.changes              = p.paragraphs_of("History.txt", 0..1).join("\n\n")
   p.post_install_message = ""
