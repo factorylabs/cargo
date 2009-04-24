@@ -6,10 +6,11 @@ bin/cargo
 bin/hack
 bin/pack
 bin/ship
-bin/sign
+bin/yank
 files/cargo.user.js
 lib/cargo.rb
 lib/cargo/cargo_server.rb
+lib/cargo/command_helpers.rb
 script/console
 script/destroy
 script/generate
