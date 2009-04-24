@@ -23,8 +23,16 @@ Cargo is a set of tools to help streamline using git.
   cargo[git:fix_issue_1234] $
   
 * pack (switch to master and merge branch)
+  cargo[git:fix_issue_1234] $ pack
+  Switched to branch "master"
+  cargo[git:master] $ git status
+  # On branch master
+  # Your branch is ahead of 'origin/master' by 7 commits.
+  #
+  nothing to commit (working directory clean)
+  cargo[git:master] $
 
-* ship (switch to master and merge branch push to remote orign, delete topic branch)
+* ship (switch to master and merge branch push to remote origin, delete topic branch)
 
 * yank (rebase current branch with latest from master)
 
