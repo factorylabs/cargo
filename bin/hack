@@ -16,6 +16,6 @@ if name.strip.empty?
 end
 story_number = Readline.readline "Story number (optional): "
 unless story_number.strip.empty?
-  name = "#{name}_#{story+number}"
+  name = "#{name}_#{story_number}"
 end
 `git checkout -b #{name}`

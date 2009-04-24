@@ -4,7 +4,7 @@
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Cargo is a set of tools to help streamline using git.
 
 == FEATURES/PROBLEMS:
 
@@ -12,7 +12,21 @@ FIX (describe your package)
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+* hack (update master create a topic branch)
+  cargo[git:master] $ hack
+  Already on "master"
+  From git@github.com:factorylabs/cargo
+   * branch            master     -> FETCH_HEAD
+  Topic name (story): fix_issue
+  Story number (optional): 1234
+  Switched to a new branch "fix_issue_1234"
+  cargo[git:fix_issue_1234] $
+  
+* pack (switch to master and merge branch)
+
+* ship (switch to master and merge branch push to remote orign, delete topic branch)
+
+* yank (rebase current branch with latest from master)
 
 == REQUIREMENTS:
 
@@ -20,7 +34,7 @@ FIX (describe your package)
 
 == INSTALL:
 
-sudo gem install cargo
+sudo gem install factorylabs-cargo --source=http://gems.github.com  
 
 == LICENSE:
 
