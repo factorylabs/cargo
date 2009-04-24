@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{factorylabs-cargo}
+  s.name = %q{cargo}
   s.version = "0.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Factory Design Labs"]
   s.date = %q{2009-04-24}
-  s.description = %q{FIX (describe your package)}
+  s.description = %q{Cargo is a set of tools to help streamline using git.}
   s.email = ["interactive@factorylabs.com"]
   s.executables = ["cargo", "hack", "pack", "ship", "yank"]
   s.extra_rdoc_files = ["History.txt", "Manifest.txt", "README.rdoc"]
@@ -17,9 +17,9 @@ Gem::Specification.new do |s|
   s.post_install_message = %q{}
   s.rdoc_options = ["--main", "README.rdoc"]
   s.require_paths = ["lib"]
-  s.rubyforge_project = %q{factorylabs-cargo}
+  s.rubyforge_project = %q{cargo}
   s.rubygems_version = %q{1.3.1}
-  s.summary = %q{FIX (describe your package)}
+  s.summary = %q{Cargo is a set of tools to help streamline using git.}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
