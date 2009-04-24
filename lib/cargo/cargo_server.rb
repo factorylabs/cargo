@@ -16,24 +16,26 @@ Rack::Handler::Mongrel.run proc { |env|
       'Access-Control' => 'allow <*>'
       }, '']
   else
-    case env['PATH_INFO']
+    req = Rack::Request.new(env)
+    case req.path_info
 
     when '/cargo.user.js' # send the user script file
       [200, {'Content-Type' => 'text/javascript'},
         File.read("#{File.dirname(__FILE__)}/../../files/cargo.user.js")]
 
     when '/start' # start a story
-      puts "Starting Story..."
-      [200, { 'Content-Type' => 'application/json; charset=utf-8', 'Access-Control-Allow-Origin' => '*'},
-        {:success => {:title => 'Starting Story', :content => 'A new branch has been created for the "" story'}}.to_json]
+      puts "Starting story #{req['id']} [#{req['title']}]"
+      [200, {'Content-Type' => 'application/json; charset=utf-8', 'Access-Control-Allow-Origin' => '*'},
+        '']
 
     when '/finish' # finish a story
-      puts "Finishing Story..."
-      [200, {'Content-Type' => 'application/json; charset=utf-8'},
-        {:success => {:title => 'Finishing Story', :content => 'The story being worked in will be merged, tested, and committed.  If everything goes well, this story will be marked as finished, otherwise you\'ll be notified.'}}.to_json]
+      puts "Starting story #{req['id']} [#{req['title']}]"
+      [200, {'Content-Type' => 'application/json; charset=utf-8', 'Access-Control-Allow-Origin' => '*'},
+        '']
 
     else # handle everything else like a 404
-      [404, {'Content-Type' => 'text/html'}, '404 Not Found']
+      [404, {'Content-Type' => 'text/html'},
+        '404 Not Found']
 
     end
   end
