@@ -13,46 +13,46 @@ Cargo is a set of tools to help streamline using git.
 == SYNOPSIS:
 
 * hack (update master create a topic branch)
-  cargo[git:master] $ hack
-  Already on "master"
-  From git@github.com:factorylabs/cargo
+   cargo[git:master] $ hack
+   Already on "master"
+   From git@github.com:factorylabs/cargo
    * branch            master     -> FETCH_HEAD
-  Topic name (story): fix_issue
-  Story number (optional): 1234
-  Switched to a new branch "fix_issue_1234"
-  cargo[git:fix_issue_1234] $
+   Topic name (story): fix_issue
+   Story number (optional): 1234
+   Switched to a new branch "fix_issue_1234"
+   cargo[git:fix_issue_1234] $
   
 * pack (switch to master and merge branch)
-  cargo[git:fix_issue_1234] $ pack
-  Switched to branch "master"
-  cargo[git:master] $ git status
-  # On branch master
-  # Your branch is ahead of 'origin/master' by 7 commits.
-  #
-  nothing to commit (working directory clean)
-  cargo[git:master] $
+   cargo[git:fix_issue_1234] $ pack
+   Switched to branch "master"
+   cargo[git:master] $ git status
+   On branch master
+   Your branch is ahead of 'origin/master' by 7 commits.
+   
+   nothing to commit (working directory clean)
+   cargo[git:master] $
 
 * ship (switch to master and merge branch push to remote origin, delete topic branch)
-  cargo[git:fix_issue_1234] $ ship
-  Switched to branch "master"
-  Counting objects: 60, done.
-  Compressing objects: 100% (45/45), done.
-  Writing objects: 100% (46/46), 16.92 KiB, done.
-  Total 46 (delta 23), reused 0 (delta 0)
-  To git@github.com:factorylabs/cargo.git
+   cargo[git:fix_issue_1234] $ ship
+   Switched to branch "master"
+   Counting objects: 60, done.
+   Compressing objects: 100% (45/45), done.
+   Writing objects: 100% (46/46), 16.92 KiB, done.
+   Total 46 (delta 23), reused 0 (delta 0)
+   To git@github.com:factorylabs/cargo.git
      41e9cfb..b51cba0  master -> master
-  cargo[git:master] $ git branch
-  * master
-  cargo[git:master] $
+   cargo[git:master] $ git branch
+   * master
+   cargo[git:master] $
   
 * yank (rebase current branch with latest from master)
-  cargo[git:fix_issue_1234] $ yank
-  Switched to branch "master"
-  From git@github.com:factorylabs/cargo
+   cargo[git:fix_issue_1234] $ yank
+   Switched to branch "master"
+   From git@github.com:factorylabs/cargo
    * branch            master     -> FETCH_HEAD
-  Switched to branch "fix_issue_1234"
-  Current branch fix_issue_1234 is up to date.
-  cargo[git:fix_issue_1234] $
+   Switched to branch "fix_issue_1234"
+   Current branch fix_issue_1234 is up to date.
+   cargo[git:fix_issue_1234] $
   
 
 == REQUIREMENTS:
