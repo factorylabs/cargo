@@ -1,7 +1,0 @@
-#!/usr/bin/env ruby
-
-`CURRENT=\`git branch | grep '\*' | awk '{print $2}'\``
-`git checkout master`
-`git merge ${CURRENT}`
-`git push origin master`
-`git branch -d ${CURRENT}`
