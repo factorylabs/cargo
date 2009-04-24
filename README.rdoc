@@ -33,7 +33,18 @@ Cargo is a set of tools to help streamline using git.
   cargo[git:master] $
 
 * ship (switch to master and merge branch push to remote origin, delete topic branch)
-
+  cargo[git:fix_issue_1234] $ ship
+  Switched to branch "master"
+  Counting objects: 60, done.
+  Compressing objects: 100% (45/45), done.
+  Writing objects: 100% (46/46), 16.92 KiB, done.
+  Total 46 (delta 23), reused 0 (delta 0)
+  To git@github.com:factorylabs/cargo.git
+     41e9cfb..b51cba0  master -> master
+  cargo[git:master] $ git branch
+  * master
+  cargo[git:master] $
+  
 * yank (rebase current branch with latest from master)
   cargo[git:fix_issue_1234] $ yank
   Switched to branch "master"
