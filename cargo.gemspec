@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cargo}
-  s.version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
+  s.version = "0.0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Factory Design Labs"]
-  s.date = %q{2009-04-24}
+  s.date = %q{2009-04-27}
   s.description = %q{Cargo is a set of tools to help streamline using git.}
   s.email = ["interactive@factorylabs.com"]
   s.executables = ["cargo", "hack", "pack", "ship", "yank"]
