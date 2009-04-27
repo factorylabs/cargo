@@ -4,18 +4,29 @@ require "#{File.dirname(__FILE__)}/../lib/cargo/command_helpers.rb"
 
 git_freshen_master
 
-total = `git branch`.scan("story").size
-if total == 0
-  default = "story"
+if ARGV.empty?
+  total = `git branch`.scan("story").size
+  if total == 0
+    default = "story"
+  else
+    default = "story_#{total + 1}"
+  end
+  name = Readline.readline "Topic name (#{default}): "
+  if name.strip.empty?
+    name = default
+  end
 else
-  default = "story_#{total + 1}"
+  name = ARGV[0]
 end
-name = Readline.readline "Topic name (#{default}): "
-if name.strip.empty?
-  name = default
+
+if ARGV.length > 1
+  story_number = ARGV[1]
+else
+  story_number = Readline.readline "Story number (optional): "
 end
-story_number = Readline.readline "Story number (optional): "
+
 unless story_number.strip.empty?
   name = "#{name}_#{story_number}"
 end
+
 cmd "git checkout -b #{name}"
