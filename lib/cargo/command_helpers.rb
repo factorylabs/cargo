@@ -16,8 +16,8 @@ end
 
 def cmd(input)
   result = `#{input}`
-  if $?.exitstatus == 1
-    puts "Cargo (#{input}) failed, exiting."
+  if $?.exitstatus > 0
+    puts "Cargo (#{input}) failed, exiting. [#{$?.exitstatus}]"
     exit 1
   end
   result
