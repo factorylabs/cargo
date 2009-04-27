@@ -16,7 +16,10 @@ end
 
 def cmd(input)
   result = `#{input}`
-  puts result
+  if $?
+    puts "Cargo (#{input}) failed, exiting."
+    exit 1
+  end
   result
 end
 
