@@ -2,7 +2,6 @@
 require "#{File.dirname(__FILE__)}/../lib/cargo/command_helpers.rb"
 
 branch = git_branch
-`git checkout master`
-`git merge #{branch}`
+git_merge_with_master(branch)
 `git push origin master`
 `git branch -d #{branch}`

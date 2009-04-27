@@ -4,6 +4,26 @@ def git_branch
   `git branch | grep "*"`.strip[2..-1]
 end
 
+def git_merge_with_master(branch=git_branch)
+  cmd "git checkout master"
+  cmd "git merge #{branch}"
+end
+
+def git_freshen_master
+  cmd "git checkout master"
+  cmd "git pull origin master"
+end
+
+def cmd(input)
+  result = `#{input}`
+  puts result
+  if $?.exitstatus > 0
+    puts "Cargo (#{input}) failed, exiting. [#{$?.exitstatus}]"
+    exit 1
+  end
+  result
+end
+
 def compare_git_ver
   m = /git version (\d+).(\d+).(\d+)/.match(`git version`.strip)
   return true  if m[1].to_i > 1

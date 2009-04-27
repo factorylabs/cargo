@@ -2,7 +2,7 @@
 require "#{File.dirname(__FILE__)}/../lib/cargo/command_helpers.rb"
 
 branch = git_branch
-`git checkout master`
-`git pull origin master`
-`git checkout #{branch}`
-`git rebase master`
+git_freshen_master
+
+cmd "git checkout #{branch}"
+cmd "git rebase master"
