@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 require "#{File.dirname(__FILE__)}/../lib/cargo/command_helpers.rb"
 
-`git checkout master`
-`git pull origin master`
+git_freshen_master
 
 total = `git branch`.scan("story").size
 if total == 0
@@ -18,4 +17,4 @@ story_number = Readline.readline "Story number (optional): "
 unless story_number.strip.empty?
   name = "#{name}_#{story_number}"
 end
-`git checkout -b #{name}`
+cmd "git checkout -b #{name}"
