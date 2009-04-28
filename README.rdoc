@@ -4,6 +4,9 @@ Cargo is a set of tools to help streamline using git.  The type of tools and
 usage vary, but they represent a process that we've adapted to streamline our
 workflow.
 
+More features will be added.  Pivotal integration on git wrapper commands and
+other features are on the unofficial list.
+
 == FEATURES:
 
 * Commands to streamline git usage.
@@ -23,9 +26,9 @@ To install the userscript in either Firefox, or the nightly build of WebKit
 (requirements outlined below) browse to http://localhost:8081/cargo.user.js
 
 If you have the proper setup (Greasemonkey / GreaseKit) you'll be prompted to
-install the user script.  Once installed you'll be prompted if a branch should
-be created automatically for you when starting a story, and asked if you'd like
-your changed committed when finishing a story.
+install the user script.  Once installed you'll be asked when starting a story
+if a branch should be created automatically, and asked if you'd like your
+changes committed when finishing a story (prompting is configurable).
 
 === Git Wrapper Commands:
 

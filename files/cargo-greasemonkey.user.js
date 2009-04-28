@@ -1,21 +1,20 @@
 // ==UserScript==
 // @name        cargo
-// @namespace   http://fluidapp.com
 // @description Hijacks story stage changed events and sends an XHR request to your local cargo server that will create a new git branch when you start a story, and tries to commit that branch when you mark it as finished.
 // @include     http://www.pivotaltracker.com/projects/*
 // @author      Factory Design Labs
 // ==/UserScript==
 
 GARGO_SERVER = 'http://localhost:8081';
+CARGO_ASK_FIRST = true;
 
 Cargo = {
   initialize: function() {
-    unsafeWindow.Cargo = this;
-
     this.hijackActions();
   },
   
   hijackActions: function() {
+    unsafeWindow.Cargo = this;
     location.href = "javascript:(" + function() {
       Story.prototype.setCurrentState = Story.prototype.setCurrentState.wrap(
         function(oldMethod, newState, disableNotify) {
@@ -38,10 +37,14 @@ Cargo = {
 
     switch (state.toString()) {
     case 'started':
-      this.request('start', params);
+      if ((CARGO_ASK_FIRST) ? confirm("Create a working branch?") : true) {
+        this.request('start', params);
+      }
       break;
     case 'finished':
-      this.request('finish', params);
+      if ((CARGO_ASK_FIRST) ? confirm("Commit your working branch?") : true) {
+        this.request('finish', params);
+      }
       break;
     }
   },

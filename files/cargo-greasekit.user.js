@@ -1,63 +1,73 @@
 // ==UserScript==
 // @name        cargo
-// @namespace   http://fluidapp.com
-// @description Attaches observers to all start/finish buttons and sends an XHR request to your local cargo server that will create a new git branch when you start a story, and tries to commits that branch when you mark it as finished.
-// @include     http://www.google.com/*
+// @description Hijacks story stage changed events and sends an XHR request to your local cargo server that will create a new git branch when you start a story, and tries to commit that branch when you mark it as finished.
+// @include     http://www.pivotaltracker.com/projects/*
 // @author      Factory Design Labs
 // ==/UserScript==
 
+// this script is not working yet.
+
 GARGO_SERVER = 'http://localhost:8081';
+CARGO_ASK_FIRST = true;
 
 Cargo = {
-  cargoFrame: null,
-  
   initialize: function() {
-    var testButton = new Element('div', {style: 'border: 1px solid red;position:absolute;z-index:200;top:10px;left:340px;height:20px;'}).update('test');
-    document.body.appendChild(testButton);
-    testButton.observe('click', function() {
-      Cargo.request('start', 1);
-    });
+    this.hijackActions();
   },
-
-  observeButtons: function(className) {
-    $$('.stateChangeButton').each(function(button) {
-      Event.observe(button, 'click', Cargo.buttonClicked.bindAsEventListener(this));
-    });
+  
+  hijackActions: function() {
+    unsafeWindow.Cargo = this;
+    location.href = "javascript:(" + function() {
+      Story.prototype.setCurrentState = Story.prototype.setCurrentState.wrap(
+        function(oldMethod, newState, disableNotify) {
+          if (newState == this._currentState) return;
+          oldMethod(newState, disableNotify);
+          Cargo.storyStateChanged(newState, this);
+        }
+      );
+    } + ")()";
   },
+  
+  storyStateChanged: function(state, story) {
+    var params = {
+      id: story.getId(),
+      initials: story.getOwnedBy().initials,
+      name: story.getName(),
+      story_type: story.getStoryType()._displayName,
+      description: story.getDescription()
+    }
 
-  buttonClicked: function(event) {
-    var button = Event.element(event);
-    if (!button.src) return;
-    var id = parseInt(button.id.match(/\d+_/));
-    if (button.src.indexOf('start') >= 0) {
-      Cargo.startStory(id);
-    } else if (button.src.indexOf('finish') >= 0) {
-      Cargo.finishStory(id);
+    switch (state.toString()) {
+    case 'started':
+      if ((CARGO_ASK_FIRST) ? confirm("Create a working branch?") : true) {
+        this.request('start', params);
+      }
+      break;
+    case 'finished':
+      if ((CARGO_ASK_FIRST) ? confirm("Commit your working branch?") : true) {
+        this.request('finish', params);
+      }
+      break;
     }
   },
 
-  startStory: function(id) {
-    Cargo.request('start', id);
-  },
-
-  finishStory: function(id) {
-    Cargo.request('finish', id);
-  },
-  
-  request: function(action, id) {
-    alert([action, id]);
-    new Ajax.Request([GARGO_SERVER, action].join('/'), {
-      parameters: {id: id},
-      method: 'get',
-      onSuccess: function(transport) {
-        alert('testing');
-        alert(transport.responseText);
-      }
-    });
+  request: function(action, params) {
+    setTimeout(function() {
+      GM_xmlhttpRequest({
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        url: [GARGO_SERVER, action].join('/'),
+        data: unsafeWindow.Object.toQueryString(params),
+        onload: function(response) {
+          Cargo.debug(response);
+        },
+        onerror: function() { alert("Error: Cargo server isn't started?"); }
+      });
+    }, 0);
   },
   
-  notify: function(message) {
-    
+  debug: function() {
+    if (unsafeWindow.console && unsafeWindow.console.info) unsafeWindow.console.info(arguments);
   }
 };
 
