@@ -21,14 +21,12 @@ class CargoServer
       case req.path_info
 
       when '/start' # start a story
-        puts "Starting Story [#{req['id']}]..."
         notify("Starting Story", "Starting story '#{req['name']}' [#{req['id']}]", 0)
         # run command
         [200, { 'Content-Type' => 'application/json; charset=utf-8'},
           "{success: 'starting story'}"]
 
       when '/finish' # finish a story
-        puts "Finishing Story [#{req['id']}]..."
         notify("Finishing Story", "Finishing story '#{req['name']}' [#{req['id']}]", 0)
         # run command
         [200, {'Content-Type' => 'application/json; charset=utf-8'},
@@ -46,11 +44,9 @@ class CargoServer
   end
 
   def notify(title, message, priority)
+    puts message
     system "growlnotify -n Cargo --image ~/Library/Autotest/rails_ok.png -p #{priority} -m #{message} #{title}"
   end
 end
 
-
 Rack::Handler::Mongrel.run CargoServer.new, :Port => 8081
-#Rack::Handler::Mongrel.run proc { |env| }, :Port => 8081
-

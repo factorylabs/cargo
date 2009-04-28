@@ -10,7 +10,7 @@ other features are on the unofficial list.
 == FEATURES:
 
 * Commands to streamline git usage.
-* Server/userscript integration with Pivotal Tracker.
+* Server/userscript integration with Pivotal Tracker (and growlnotify).
 
 == SYNOPSIS:
 
