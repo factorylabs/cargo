@@ -1,16 +1,33 @@
-= cargo
-
-* FIX (url)
-
 == DESCRIPTION:
 
-Cargo is a set of tools to help streamline using git.
+Cargo is a set of tools to help streamline using git.  The type of tools and
+usage vary, but they represent a process that we've adapted to streamline our
+workflow.
 
-== FEATURES/PROBLEMS:
+== FEATURES:
 
-* FIX (list of features or problems)
+* Commands to streamline git usage.
+* Server/userscript integration with Pivotal Tracker.
 
 == SYNOPSIS:
+
+=== Cargo Server:
+  
+* cargo (runs the cargo server that listens for incoming events)
+   cargo[git:master] $ cargo
+   => Starting Cargo 0.0.2 on http://0.0.0.0:8081
+   => Ctrl-C to shutdown server
+   ** Cargo listening at 0.0.0.0:8081
+
+To install the userscript in either Firefox, or the nightly build of WebKit
+(requirements outlined below) browse to http://localhost:8081/cargo.user.js
+
+If you have the proper setup (Greasemonkey / GreaseKit) you'll be prompted to
+install the user script.  Once installed you'll be prompted if a branch should
+be created automatically for you when starting a story, and asked if you'd like
+your changed committed when finishing a story.
+
+=== Git Wrapper Commands:
 
 * hack (update master create a topic branch)
    cargo[git:master] $ hack
@@ -54,10 +71,18 @@ Cargo is a set of tools to help streamline using git.
    Current branch fix_issue_1234 is up to date.
    cargo[git:fix_issue_1234] $
   
-
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+The Cargo server and userscript integration for pivotal tracker requires one of
+the following setups:
+
+* Firefox 3.0.9+, and the Greasemonkey plugin that can be found at https://addons.mozilla.org/en-US/firefox/addon/748
+
+Future support will include:
+
+* Nightly Build of WebKit (OS X r42858)+, and GreaseKit that can be found at http://8-p.info/greasekit/
+
+* Fluid support should be coming with the next public update of Safari.
 
 == INSTALL:
 
