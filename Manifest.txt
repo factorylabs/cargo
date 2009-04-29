@@ -7,8 +7,8 @@ bin/hack
 bin/pack
 bin/ship
 bin/yank
-files/cargo-greasekit.user.js
-files/cargo-greasemonkey.user.js
+files/cargo.user.js
+files/cargo.png
 lib/cargo.rb
 lib/cargo/cargo_server.rb
 lib/cargo/command_helpers.rb

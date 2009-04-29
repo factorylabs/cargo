@@ -34,7 +34,7 @@ class CargoServer
 
       when '/cargo.user.js' # send the user script file
         [200, {'Content-Type' => 'text/javascript'},
-          File.read("#{File.dirname(__FILE__)}/../../files/cargo-greasemonkey.user.js")]
+          File.read("#{File.dirname(__FILE__)}/../../files/cargo.user.js")]
 
       else # handle everything else like a 404
         [404, {'Content-Type' => 'text/html'}, '404 Not Found']
@@ -45,7 +45,7 @@ class CargoServer
 
   def notify(title, message, priority)
     puts message
-    system "growlnotify -n Cargo --image ~/Library/Autotest/rails_ok.png -p #{priority} -m #{message} #{title}"
+    system "growlnotify -n Cargo --image #{File.dirname(__FILE__)}/../../files/cargo.png -p #{priority} -m #{message} #{title}"
   end
 end
 
