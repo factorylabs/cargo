@@ -9,30 +9,39 @@ GARGO_SERVER = 'http://localhost:8081';
 CARGO_ASK_FIRST = true;
 
 Cargo = {
+  gm: true,
+  
   initialize: function() {
-    this.hijackActions();
-
     // make th script work with both GreaseKit and Greasemonkey
-    if (!unsafeWindow) { window.unsafeWindow = window; }
+    if (typeof(unsafeWindow) == 'undefined') {
+      this.gm = false;
+      window.unsafeWindow = window;
+    }
+    this.hijackActions();
   },
   
   hijackActions: function() {
     unsafeWindow.Cargo = this;
-    location.href = "javascript:(" + function() {
-      Story.prototype.setCurrentState = Story.prototype.setCurrentState.wrap(
-        function(oldMethod, newState, disableNotify) {
-          if (newState == this._currentState) return;
-          oldMethod(newState, disableNotify);
-          if (!disableNotify) Cargo.storyStateChanged(newState, this);
+    var takeOverFunction = function() {
+      PerformStoryAction.prototype.signalSuccessFromServer =
+      PerformStoryAction.prototype.signalSuccessFromServer.wrap(
+        function(oldMethod) {
+          Cargo.performedStoryAction(this.story);
+          oldMethod();
         }
       );
-    } + ")()";
+    }
+    
+    if (this.gm) location.href = "javascript:(" + takeOverFunction + ")()";
+    else takeOverFunction();
   },
   
-  storyStateChanged: function(state, story) {
+  performedStoryAction: function(story) {
+    var state = story.getCurrentState()
+
     var params = {
       id: story.getId(),
-      initials: story.getOwnedBy().initials,
+      initials: (story.getOwnedBy()) ? story.getOwnedBy().initials : '',
       name: story.getName(),
       story_type: story.getStoryType()._displayName,
       description: story.getDescription()
@@ -57,10 +66,10 @@ Cargo = {
       var method = 'POST';
       var url = [GARGO_SERVER, action].join('/');
       var headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-      var params = unsafeWindow.Object.toQueryString(params);
+      var data = unsafeWindow.Object.toQueryString(params);
       
-      if (GM_xmlhttpRequest) {
-        GM_xmlhttpRequest({method: method, headers: headers, url: url, data: params,
+      if (Cargo.gm) {
+        GM_xmlhttpRequest({method: method, headers: headers, url: url, data: data,
           onerror: function() { alert("Error: Cargo server isn't started?"); },
           onload: function(response) {
             Cargo.debug(response);
