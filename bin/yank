@@ -4,6 +4,6 @@ require "#{File.dirname(__FILE__)}/../lib/cargo/command_helpers.rb"
 branch = git_branch
 git_freshen_master
 cmd "git checkout #{branch}"
-stash_if_dirty
+was_dirty = stash_if_dirty
 cmd "git rebase master"
-apply_stash_if_was_dirty
+apply_stash_if_was_dirty if was_dirty

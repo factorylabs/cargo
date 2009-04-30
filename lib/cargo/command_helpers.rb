@@ -14,9 +14,11 @@ def git_checkout(branch)
 end
 
 def stash_if_dirty
-  if is_branch_dirty?
+  dirty = is_branch_dirty?
+  if dirty
     cmd "git stash"
   end
+  dirty
 end
 
 def apply_stash_if_was_dirty
