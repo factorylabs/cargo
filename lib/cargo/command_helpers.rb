@@ -4,16 +4,26 @@ def git_branch
   `git branch | grep "*"`.strip[2..-1]
 end
 
-def has_modifications?
+def is_branch_dirty?
   status = `git status`
   /\#\s+modified\:/ =~ status  
 end
 
 def git_checkout(branch)
-  if has_modifications?
+  cmd "git checkout #{branch}"
+end
+
+def stash_if_dirty
+  if is_branch_dirty?
     cmd "git stash"
   end
-  cmd "git checkout #{branch}"
+end
+
+def apply_stash_if_was_dirty
+  stash_list = `git stash list`
+  if /stash\@\{\d\}\:/ =~ stash_list
+    cmd "git stash pop"
+  end
 end
 
 def git_merge_with_master(branch=git_branch)
