@@ -9,6 +9,8 @@ workflow.
 More features will be added.  Pivotal integration on git wrapper commands and
 other features are on the unofficial list.
 
+This is currently in alpha and has no tests (eeek!)
+
 == FEATURES:
 
 * Commands to streamline git usage.
