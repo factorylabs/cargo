@@ -21,7 +21,7 @@ def stash_if_dirty
   dirty
 end
 
-def apply_stash_if_was_dirty
+def apply_stash
   stash_list = `git stash list`
   if /stash\@\{\d\}\:/ =~ stash_list
     cmd "git stash pop"

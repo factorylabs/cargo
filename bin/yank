@@ -6,4 +6,4 @@ git_freshen_master
 cmd "git checkout #{branch}"
 was_dirty = stash_if_dirty
 cmd "git rebase master"
-apply_stash_if_was_dirty if was_dirty
+apply_stash if was_dirty
