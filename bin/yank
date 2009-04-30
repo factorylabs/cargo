@@ -5,4 +5,5 @@ branch = git_branch
 git_freshen_master
 
 cmd "git checkout #{branch}"
+
 cmd "git rebase master"
