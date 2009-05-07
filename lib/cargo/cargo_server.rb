@@ -1,7 +1,8 @@
 require 'rubygems'
 require 'rack'
 require 'cargo'
-require "#{File.dirname(__FILE__)}/command_helpers.rb"
+require "#{File.dirname(__FILE__)}/commands/hack.rb"
+require "#{File.dirname(__FILE__)}/commands/ship.rb"
 
 puts "=> Starting Cargo #{Cargo::VERSION} on http://0.0.0.0:8081"
 puts "=> Ctrl-C to shutdown server"
@@ -23,7 +24,7 @@ class CargoServer
       case req.path_info
 
       when '/start' # start a story
-        puts `hack #{escape(req['name'])[0..30]} #{req['id']}`
+        puts Cargo::Commands::Hack.new(req['name'], req['id'])
         notify("Starting Story", "Starting story '#{req['name']}' [#{req['id']}]", 0)
         
         [200, { 'Content-Type' => 'application/json; charset=utf-8'},
@@ -33,7 +34,7 @@ class CargoServer
         branch = git_branch
         story_id = branch.split('-').last
         if story_id == req['id']
-          puts `ship`
+          puts Cargo::Commands::Ship.new
           notify("Finishing Story", "Finishing story '#{req['name']}' [#{req['id']}]", 0)
         else
           notify("Story id doesn't match current branch", "Story id doesn't match current branch '#{branch}' [#{req['id']}]", 1)

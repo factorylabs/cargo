@@ -1,1 +1,4 @@
 pkg
+.cargo
+.tmtags
+bin/inspect_tracker

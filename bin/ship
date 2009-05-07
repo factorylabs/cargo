@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
-require "#{File.dirname(__FILE__)}/../lib/cargo/command_helpers.rb"
+require "#{File.dirname(__FILE__)}/../lib/cargo/commands/ship.rb"
 
-branch = git_branch
-git_merge_with_master(branch)
-cmd "git push origin master"
-cmd "git branch -d #{branch}"
+
+Cargo::Commands::Ship.new(ARGV)
+

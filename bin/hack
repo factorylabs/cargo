@@ -1,32 +1,5 @@
 #!/usr/bin/env ruby
-require "#{File.dirname(__FILE__)}/../lib/cargo/command_helpers.rb"
+require "#{File.dirname(__FILE__)}/../lib/cargo/commands/hack.rb"
 
 
-git_freshen_master
-
-if ARGV.empty?
-  total = `git branch`.scan("story").size
-  if total == 0
-    default = "story"
-  else
-    default = "story_#{total + 1}"
-  end
-  name = Readline.readline "Topic name (#{default}): "
-  if name.strip.empty?
-    name = default
-  end
-else
-  name = ARGV[0]
-end
-
-if ARGV.length > 1
-  story_number = ARGV[1]
-else
-  story_number = Readline.readline "Story number (optional): "
-end
-
-unless story_number.strip.empty?
-  name = "#{name}-#{story_number}"
-end
-
-cmd "git checkout -b #{name}"
+Cargo::Commands::Hack.new(ARGV)
