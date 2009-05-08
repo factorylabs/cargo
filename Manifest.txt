@@ -11,7 +11,12 @@ files/cargo.user.js
 files/cargo.png
 lib/cargo.rb
 lib/cargo/cargo_server.rb
-lib/cargo/command_helpers.rb
+lib/cargo/commands/base.rb
+lib/cargo/commands/hack.rb
+lib/cargo/commands/pack.rb
+lib/cargo/commands/ship.rb
+lib/cargo/commands/yank.rb
+lib/pivotal_tracker/pivotal_tracker.rb
 script/console
 script/destroy
 script/generate
