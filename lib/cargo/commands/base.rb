@@ -1,11 +1,11 @@
 require 'rubygems'
 require 'readline'
 require 'pp'
+require 'pickler'
 
 require "#{File.dirname(__FILE__)}/../../pivotal_tracker/pivotal_tracker.rb"
 
 require "#{File.dirname(__FILE__)}/../config.rb"
-
 
 module Cargo
   module Commands
@@ -18,8 +18,16 @@ module Cargo
         end
         
         if Cargo::Config.integrate_with_tracker
-          Pivotal.token = Cargo::Config.api_key
-          set_current_project
+          tracker = Pickler::Tracker.new(Cargo::Config.api_key, :false)
+
+          unless Cargo::Config.project
+            project_id = grab_project_id_from_user
+            Cargo::Config.project = project_id
+            File.open(File.expand_path('./.cargo'), 'a'){|file| file.write("\nCargo::Config.project = #{project_id}\n")}
+          end
+        
+          project_id = Cargo::Config.project if Cargo::Config.api_available? 
+          @current_project = Pickler::Tracker::Project.new(tracker,tracker.get_xml("/projects/#{project_id}")["project"])
         end
       end
       
@@ -32,16 +40,6 @@ module Cargo
         pp current_project
         pp current_project.stories(:filter => 'state:unstarted', :limit => 5)
         # pp Pivotal::Story.find(:all, :params => {:current_state => 'unstarted', :project_id => current_project.id})
-      end
-      
-      def set_current_project
-        unless Cargo::Config.project
-          @current_project = grab_project_id_from_user
-          Cargo::Config.project = current_project.id
-          File.open(File.expand_path('./.cargo'), 'a'){|file| file.write("\nCargo::Config.project = #{current_project.id}\n")}
-        end
-        
-        @current_project ||= Pivotal::Project.find(Cargo::Config.project) if Cargo::Config.api_available? 
       end
       
       def grab_project_id_from_user

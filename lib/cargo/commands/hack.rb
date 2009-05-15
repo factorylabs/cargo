@@ -2,72 +2,37 @@ require "#{File.dirname(__FILE__)}/base.rb"
 module Cargo
   module Commands
     class Hack < Cargo::Commands::Base
-      attr_accessor :story, :story_number, :story_name
-      
-      def story_name=(val)
-        @story_name = /\s|\.|\\|\// =~ val ? escape(val)[0..30] : val
-      end
-      
-      def topic_name
-        if self.story_number 
-          "#{self.story_name}-#{self.story_number}" 
-        else
-          self.story_name || default_topic_name
-        end
-      end
+      attr_accessor :story
       
       def run(args)
         refresh_master
 
-        if !args.empty?
-          self.story_name = args[0]
-        end
-        
-        if args.length > 1
-          self.story_number = args[1]
-        else
-          get_story_from_user 
-        end
+        get_story(args[0])
+  
+        cmd "git checkout -b #{escape(self.story.name)}"
 
-        cmd "git checkout -b #{topic_name}"
+        self.story.transition!('started')
+      end
+    
+      def get_story(story_id)
+        if story_id.blank?
+          if Cargo::Config.api_available?
+            stories = fetch_stories
+            choice = Readline.readline "Enter story number: "
+            if !choice.empty? && choice.to_i.to_s == choice
+              story_id = stories[choice.to_i - 1].id
+            end
+          end  
+        end  
         
-        begin
-          self.story.current_state = 'started'
-          self.story.save
-        rescue ActiveResource::ServerError => e
-          # puts e
-          puts  "unable to set story to started on tracker"
-        end
-      end
-      
-      def default_topic_name
-        total = `git branch`.scan("story").size
-        if total == 0
-          default = "story"
-        else
-          default = "story_#{total + 1}"
-        end
-      end
-      
-      def get_story_from_user
-        if Cargo::Config.api_available?
-          stories = fetch_stories
-          choice = Readline.readline "Enter story number or type custom name: "
-          if !choice.empty? && choice.to_i.to_s == choice
-            self.story = stories[choice.to_i + 1] 
-            self.story_name ||= self.story.name
-            self.story_number = self.story.id.to_s
-          else
-            self.story_name = choice
-          end
-        else
-          self.story_name = Readline.readline "Topic name (#{default}): "
-        end
+        # raise if story_id.blank?
+        
+        self.story = Pickler::Tracker::Story.new(current_project,current_project.tracker.get_xml("/projects/#{current_project.id}/stories/#{story_id}")["story"])      
       end
       
       def fetch_stories
         puts "Fetching tracker stories"
-        stories = current_project.stories(:filter => 'state:unstarted', :limit => 5)
+        stories = current_project.stories('state:unstarted')
         puts "Choose a story"
         stories.each_with_index do |story, i|
           puts "#{i+1}) #{story.name}"
