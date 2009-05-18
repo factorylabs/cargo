@@ -3,7 +3,7 @@ $:.unshift(File.dirname(__FILE__)) unless
   
 
 module Cargo
-  VERSION = '0.0.2.6'
+  VERSION = '0.0.2.7'
 
   class Error < RuntimeError
   end
