@@ -25,7 +25,7 @@ module Cargo
             Cargo::Config.project = project_id
             File.open(File.expand_path('./.cargo'), 'a'){|file| file.write("\nCargo::Config.project = #{project_id}\n")}
           end
-        
+      
           project_id = Cargo::Config.project if Cargo::Config.api_available? 
           @current_project = Pickler::Tracker::Project.new(tracker,tracker.get_xml("/projects/#{project_id}")["project"])
         end
@@ -60,7 +60,7 @@ module Cargo
         cmd "git checkout #{branch}"
       end
 
-      def merge_with_master(branch=git_branch)
+      def merge_with_master(branch=current_branch)
         checkout_branch "master"
         cmd "git merge #{branch}"
       end

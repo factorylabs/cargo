@@ -1,4 +1,5 @@
 require "#{File.dirname(__FILE__)}/base.rb"
+
 module Cargo
   module Commands
     class Hack < Cargo::Commands::Base
@@ -25,8 +26,8 @@ module Cargo
           end  
         end  
         
-        # raise if story_id.blank?
-        
+        raise(Cargo::Error 'Invalid story') if story_id.blank?
+
         self.story = Pickler::Tracker::Story.new(current_project,current_project.tracker.get_xml("/projects/#{current_project.id}/stories/#{story_id}")["story"])      
       end
       

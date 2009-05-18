@@ -4,4 +4,8 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 module Cargo
   VERSION = '0.0.2.6'
+
+  class Error < RuntimeError
+  end
+
 end
