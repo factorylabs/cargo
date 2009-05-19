@@ -11,11 +11,11 @@ module Cargo
       attr_accessor :current_project
       
       def setup
-        @config = Cargo::Config.new(true)
-
+        @config = get_config
+        
         if @config.integrate_with_tracker
           @tracker = Pickler::Tracker.new(@config.api_key, :false)
-
+        
           unless @config.project
             @config.project = grab_project_id_from_user
             @config.write_project
@@ -31,6 +31,10 @@ module Cargo
       end
       
       def run(args)
+      end
+      
+      def get_config
+         Cargo::Config.new(true)
       end
       
       def grab_project_id_from_user
@@ -89,9 +93,4 @@ module Cargo
       end
     end
   end
-end
-
-class Pject<Pickler::Tracker
-
-
 end
