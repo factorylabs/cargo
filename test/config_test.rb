@@ -5,12 +5,15 @@ require 'lib/cargo/config'
 class Cargo::ConfigTest < Test::Unit::TestCase
   
   def setup
-    @config = Cargo::Config.new(true)
-    @config.project = nil
+    Cargo::Config.any_instance.stubs(:get_file_data).returns(true)
   end
   
   def test_create
-    assert @config.integrate_with_tracker
-    assert @config.api_key
+    config = Cargo::Config.new(true)
+    config.api_key = '12345'
+    config.project = '54321'
+    
+    assert config.integrate_with_tracker
+    assert config.api_available?
   end
 end

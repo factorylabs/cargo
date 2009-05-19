@@ -5,6 +5,7 @@ require 'lib/cargo/commands/base'
 class Cargo::Commands::BaseTest < Test::Unit::TestCase
 
   def setup
+    Cargo::Config.any_instance.stubs(:get_file_data).returns(true)
     config = Cargo::Config.new(true)
     config.api_key = '12345'
     config.project = '54321'
