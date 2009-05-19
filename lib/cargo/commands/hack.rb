@@ -7,28 +7,22 @@ module Cargo
       
       def run(args)
         refresh_master
-
         get_story(args[0])
-  
-        cmd "git checkout -b #{escape(self.story.name)}"
-
+        cmd "git checkout -b #{escape(self.story.name)}-#{self.story.id}"
         self.story.transition!('started')
       end
     
       def get_story(story_id)
         if story_id.blank?
-          if Cargo::Config.api_available?
-            stories = fetch_stories
-            choice = Readline.readline "Enter story number: "
-            if !choice.empty? && choice.to_i.to_s == choice
-              story_id = stories[choice.to_i - 1].id
-            end
-          end  
+          stories = fetch_stories
+          choice = Readline.readline "Enter story number: "
+          if !choice.empty? && choice.to_i.to_s == choice
+            story_id = stories[choice.to_i - 1].id
+          end
         end  
         
-        raise(Cargo::Error 'Invalid story') if story_id.blank?
-
-        self.story = Pickler::Tracker::Story.new(current_project,current_project.tracker.get_xml("/projects/#{current_project.id}/stories/#{story_id}")["story"])      
+        raise 'Invalid story' if story_id.blank?
+        self.story = Pickler::Tracker::Story.new(@current_project,@current_project.tracker.get_xml("/projects/#{@current_project.id}/stories/#{story_id}")["story"])      
       end
       
       def fetch_stories

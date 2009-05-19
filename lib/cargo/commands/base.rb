@@ -3,8 +3,6 @@ require 'readline'
 require 'pp'
 require 'pickler'
 
-require "#{File.dirname(__FILE__)}/../../pivotal_tracker/pivotal_tracker.rb"
-
 require "#{File.dirname(__FILE__)}/../config.rb"
 
 module Cargo
@@ -13,21 +11,17 @@ module Cargo
       attr_accessor :current_project
       
       def setup
-        [File.expand_path('~/.cargo'), './.cargo'].each do |f|
-          load f if File.exist? f
-        end
-        
-        if Cargo::Config.integrate_with_tracker
-          tracker = Pickler::Tracker.new(Cargo::Config.api_key, :false)
+        @config = Cargo::Config.new(true)
 
-          unless Cargo::Config.project
-            project_id = grab_project_id_from_user
-            Cargo::Config.project = project_id
-            File.open(File.expand_path('./.cargo'), 'a'){|file| file.write("\nCargo::Config.project = #{project_id}\n")}
+        if @config.integrate_with_tracker
+          @tracker = Pickler::Tracker.new(@config.api_key, :false)
+
+          unless @config.project
+            @config.project = grab_project_id_from_user
+            @config.write_project
           end
-      
-          project_id = Cargo::Config.project if Cargo::Config.api_available? 
-          @current_project = Pickler::Tracker::Project.new(tracker,tracker.get_xml("/projects/#{project_id}")["project"])
+
+          @current_project = Pickler::Tracker::Project.new(@tracker,@tracker.get_xml("/projects/#{@config.project}")["project"])
         end
       end
       
@@ -37,19 +31,19 @@ module Cargo
       end
       
       def run(args)
-        pp current_project
-        pp current_project.stories(:filter => 'state:unstarted', :limit => 5)
-        # pp Pivotal::Story.find(:all, :params => {:current_state => 'unstarted', :project_id => current_project.id})
       end
       
       def grab_project_id_from_user
-        projects = Pivotal::Project.find(:all)
+        response = @tracker.get_xml("/projects")
+
+        projects = [response["projects"]].flatten.compact.map {|s| Pickler::Tracker::Project.new(@tracker,s)}
+
         puts 'Please choose a tracker project for the current directory'
         projects.each_with_index do |project, i|
           puts "#{i+1}) #{project.name}"
         end
         choice = Readline.readline "Enter: "
-        projects[choice.to_i - 1]
+        projects[choice.to_i - 1].id
       end
       
       def current_branch
@@ -95,4 +89,9 @@ module Cargo
       end
     end
   end
+end
+
+class Pject<Pickler::Tracker
+
+
 end

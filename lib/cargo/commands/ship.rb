@@ -8,18 +8,12 @@ module Cargo
         merge_with_master(branch)
         cmd "git push origin master"
         cmd "git branch -d #{branch}"
-        finish_story(branch.split('-').last) if Cargo::Config.api_available?
+        finish_story(branch.split('-').last) if @config.api_available?
       end
       
       def finish_story(story_id)
-        story = Pivotal::Story.find(:first, :params => {:story_id => story_id, :project_id => Cargo::Config.project})
-        begin
-          self.story.current_state = 'finished'
-          self.story.save
-        rescue ActiveResource::ServerError => e
-          # puts e
-          puts  "unable to set story to finished on tracker"
-        end
+        story = Pickler::Tracker::Story.new(@current_project,@current_project.tracker.get_xml("/projects/#{@current_project.id}/stories/#{story_id}")["story"])      
+        story.finish!
       end
       
     end

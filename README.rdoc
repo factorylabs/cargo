@@ -95,6 +95,10 @@ Future support will include:
 
 sudo gem install factorylabs-cargo --source=http://gems.github.com  
 
+== Setup:
+
+echo "api_key: YOUR_PIVOTAL_TRACKER_API_KEY"  > ~/.cargo.yml
+
 == LICENSE:
 
 (The MIT License)
