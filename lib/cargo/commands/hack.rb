@@ -13,7 +13,7 @@ module Cargo
       end
     
       def get_story(story_id)
-        if story_id.blank?
+        if story_id.nil?
           stories = fetch_stories
           choice = Readline.readline "Enter story number: "
           if !choice.empty? && choice.to_i.to_s == choice

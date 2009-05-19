@@ -9,8 +9,6 @@ workflow.
 More features will be added.  Pivotal integration on git wrapper commands and
 other features are on the unofficial list.
 
-This is currently in alpha and has no tests (eeek!)
-
 == FEATURES:
 
 * Commands to streamline git usage.
@@ -93,11 +91,11 @@ Future support will include:
 
 == INSTALL:
 
-sudo gem install factorylabs-cargo --source=http://gems.github.com  
+    sudo gem install factorylabs-cargo --source=http://gems.github.com  
 
 == Setup:
 
-echo "api_key: YOUR_PIVOTAL_TRACKER_API_KEY"  > ~/.cargo.yml
+    echo "api_key: YOUR_PIVOTAL_TRACKER_API_KEY"  > ~/.cargo.yml
 
 == LICENSE:
 
