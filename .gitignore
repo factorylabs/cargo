@@ -1,4 +1,4 @@
 pkg
-.cargo
+.cargo.yml
 .tmtags
 bin/inspect_tracker

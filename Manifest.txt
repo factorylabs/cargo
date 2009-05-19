@@ -16,11 +16,4 @@ lib/cargo/commands/hack.rb
 lib/cargo/commands/pack.rb
 lib/cargo/commands/ship.rb
 lib/cargo/commands/yank.rb
-lib/pivotal_tracker/pivotal_tracker.rb
-script/console
-script/destroy
-script/generate
-spec/cargo_spec.rb
-spec/spec.opts
-spec/spec_helper.rb
-tasks/rspec.rake
+lib/cargo/config.rb

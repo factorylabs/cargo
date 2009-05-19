@@ -17,7 +17,7 @@ module Cargo
         /\#\s+modified\:/ =~ status  
       end
       
-      def stash_if_dirty
+      def stash_if_dirty  
         dirty = is_branch_dirty?
         if dirty
           cmd "git stash"

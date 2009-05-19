@@ -10,7 +10,7 @@ $hoe = Hoe.new('cargo', Cargo::VERSION) do |p|
   p.rubyforge_name       = p.name
   p.extra_deps           = [
     ['rack', '>= 0.9.1'],
-    ['pickler', '>= 0.0.8'],
+    ['tpope-pickler', '>= 0.0.8'],
   ]
   p.extra_dev_deps        = [
     ['newgem', ">= #{::Newgem::VERSION}"]
