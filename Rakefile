@@ -20,6 +20,7 @@ $hoe = Hoe.new('cargo', Cargo::VERSION) do |p|
   path = (p.rubyforge_name == p.name) ? p.rubyforge_name : "\#{p.rubyforge_name}/\#{p.name}"
   p.remote_rdoc_dir = File.join(path.gsub(/^#{p.rubyforge_name}\/?/,''), 'rdoc')
   p.rsync_args = '-av --delete --ignore-errors'
+  p.test_globs = 'test/**/*_test.rb'
 end
 
 require 'newgem/tasks' # load /tasks/*.rake
@@ -27,3 +28,4 @@ Dir['tasks/**/*.rake'].each { |t| load t }
 
 # TODO - want other tests/tasks run by default? Add them to the list
 # task :default => [:spec, :features]
+

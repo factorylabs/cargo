@@ -5,6 +5,11 @@ require 'lib/cargo/commands/hack'
 class Cargo::Commands::HackTest < Test::Unit::TestCase
 
   def setup
+    config = Cargo::Config.new(true)
+    config.api_key = '12345'
+    config.project = '54321'
+    Cargo::Commands::Hack.any_instance.stubs(:get_config).returns(config)
+    
     @tracker = Pickler::Tracker.new('78910', :false)
     @project_id = '54321'
     @project_xml = {"name"=>"Project test", "iteration_length"=>1, "week_start_day"=>"Monday", "point_scale"=>"0,1,2,4,8", "id"=>54321}
