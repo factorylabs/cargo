@@ -27,7 +27,15 @@ More features will be added.  This is still alpha software
 
     hack will start the story via the Pivotal Tracker API and start a new
     branch with the story name and id
-    
+    cargo[git:master] $ hack
+    Already on "master"
+    From git@github.com:factorylabs/cargo
+    * branch            master     -> FETCH_HEAD
+    Topic name (story): fix_issue
+    Story number (optional): 1234
+    Switched to a new branch "fix_issue_1234"
+    cargo[git:fix_issue_1234] $
+
 * pack (switch to master and merge branch)
    cargo[git:fix_issue_1234] $ pack
    Switched to branch "master"
