@@ -2,50 +2,32 @@
 
 http://www.factorylabs.com/images/cargo.png
 
-Cargo is a set of tools to help streamline using git.  The type of tools and
-usage vary, but they represent a process that we've adapted to streamline our
-workflow.
+Cargo is a set of tools to help streamline using git and Pivotal Tracker for agile development. Starting a story creates 
+a new branch and finishing a story merges the branch back into master.  This can be done either with browser integration or a set of command line tools.
 
-More features will be added.  Pivotal integration on git wrapper commands and
-other features are on the unofficial list.
+More features will be added.  This is still alpha software
 
-This is still alpha
+== INSTALL:
 
-== FEATURES:
+    sudo gem install factorylabs-cargo --source=http://gems.github.com  
 
-* Commands to streamline git usage.
-* Server/userscript integration with Pivotal Tracker (and growlnotify).
+== Setup:
+
+    echo "api_key: YOUR_PIVOTAL_TRACKER_API_KEY"  > ~/.cargo.yml
+    echo "project: PIVOTAL_TRACKER_PROJECT_ID"  > RAILS_ROOT/.cargo.yml (optional)
 
 == SYNOPSIS:
 
-=== Cargo Server:
-  
-* cargo (runs the cargo server that listens for incoming events)
-   cargo[git:master] $ cargo
-   => Starting Cargo 0.0.2 on http://0.0.0.0:8081
-   => Ctrl-C to shutdown server
-   ** Cargo listening at 0.0.0.0:8081
-
-To install the userscript in either Firefox, or the nightly build of WebKit
-(requirements outlined below) browse to http://localhost:8081/cargo.user.js
-
-If you have the proper setup (Greasemonkey / GreaseKit) you'll be prompted to
-install the user script.  Once installed you'll be asked when starting a story
-if a branch should be created automatically, and asked if you'd like your
-changes committed when finishing a story (prompting is configurable).
-
 === Git Wrapper Commands:
 
-* hack (update master create a topic branch)
-   cargo[git:master] $ hack
-   Already on "master"
-   From git@github.com:factorylabs/cargo
-   * branch            master     -> FETCH_HEAD
-   Topic name (story): fix_issue
-   Story number (optional): 1234
-   Switched to a new branch "fix_issue_1234"
-   cargo[git:fix_issue_1234] $
-  
+* hack (start a new story and create a branch for that story)
+    use hack from the command line at the root of your project
+    call it with a story id or with no arguments it will pull the 
+    unstarted stories from the Tracker project and allow you to choose one
+
+    hack will start the story via the Pivotal Tracker API and start a new
+    branch with the story name and id
+    
 * pack (switch to master and merge branch)
    cargo[git:fix_issue_1234] $ pack
    Switched to branch "master"
@@ -78,6 +60,22 @@ changes committed when finishing a story (prompting is configurable).
    Current branch fix_issue_1234 is up to date.
    cargo[git:fix_issue_1234] $
   
+=== Cargo Server:
+  
+* cargo (runs the cargo server that listens for incoming events)
+   cargo[git:master] $ cargo
+   => Starting Cargo 0.0.2 on http://0.0.0.0:8081
+   => Ctrl-C to shutdown server
+   ** Cargo listening at 0.0.0.0:8081
+
+To install the userscript in either Firefox, or the nightly build of WebKit
+(requirements outlined below) browse to http://localhost:8081/cargo.user.js
+
+If you have the proper setup (Greasemonkey / GreaseKit) you'll be prompted to
+install the user script.  Once installed you'll be asked when starting a story
+if a branch should be created automatically, and asked if you'd like your
+changes committed when finishing a story (prompting is configurable).
+
 == REQUIREMENTS:
 
 The Cargo server and userscript integration for pivotal tracker requires one of
@@ -90,14 +88,6 @@ Future support will include:
 * Nightly Build of WebKit (OS X r42858)+, and GreaseKit that can be found at http://8-p.info/greasekit/
 
 * Fluid support should be coming with the next public update of Safari.
-
-== INSTALL:
-
-    sudo gem install factorylabs-cargo --source=http://gems.github.com  
-
-== Setup:
-
-    echo "api_key: YOUR_PIVOTAL_TRACKER_API_KEY"  > ~/.cargo.yml
 
 == LICENSE:
 
