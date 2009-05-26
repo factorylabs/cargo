@@ -27,7 +27,7 @@ module Cargo
       
       def fetch_stories
         puts "Fetching tracker stories"
-        stories = current_project.stories('state:unstarted')
+        stories = current_project.stories('state:unstarted')[0..10]
         puts "Choose a story"
         stories.each_with_index do |story, i|
           puts "#{i+1}) #{story.name}"
