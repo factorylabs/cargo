@@ -14,7 +14,7 @@ More features will be added.  This is still alpha software
 == Setup:
 
     echo "api_key: YOUR_PIVOTAL_TRACKER_API_KEY"  > ~/.cargo.yml
-    echo "project: PIVOTAL_TRACKER_PROJECT_ID"  > RAILS_ROOT/.cargo.yml (optional)
+    echo "project: PIVOTAL_TRACKER_PROJECT_ID"  > RAILS_ROOT/.cargo.yml (optional hack will prompt for project if it isn't configured)
 
 == SYNOPSIS:
 
@@ -31,10 +31,13 @@ More features will be added.  This is still alpha software
     Already on "master"
     From git@github.com:factorylabs/cargo
     * branch            master     -> FETCH_HEAD
-    Topic name (story): fix_issue
-    Story number (optional): 1234
-    Switched to a new branch "fix_issue_1234"
-    cargo[git:fix_issue_1234] $
+    Fetching tracker stories
+    Choose a story
+    1) 'Keyword search' issues
+    2) 'Detail view' issues
+    Enter story number: [Type # Here]
+    Switched to a new branch "keyword_search_issues-1234"
+    cargo[git:keyword_search_issues-1234] $
 
 * pack (switch to master and merge branch)
    cargo[git:fix_issue_1234] $ pack
@@ -46,7 +49,7 @@ More features will be added.  This is still alpha software
    nothing to commit (working directory clean)
    cargo[git:master] $
 
-* ship (switch to master and merge branch push to remote origin, delete topic branch)
+* ship (switch to master and merge branch push to remote origin, delete topic branch, mark story as finished)
    cargo[git:fix_issue_1234] $ ship
    Switched to branch "master"
    Counting objects: 60, done.
@@ -57,6 +60,7 @@ More features will be added.  This is still alpha software
      41e9cfb..b51cba0  master -> master
    cargo[git:master] $ git branch
    * master
+   Marking story as finished
    cargo[git:master] $
   
 * yank (rebase current branch with latest from master)

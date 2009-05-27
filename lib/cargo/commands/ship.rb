@@ -12,6 +12,7 @@ module Cargo
       end
       
       def finish_story(story_id)
+        puts 'Marking story as finished'
         story = Pickler::Tracker::Story.new(@current_project,@current_project.tracker.get_xml("/projects/#{@current_project.id}/stories/#{story_id}")["story"])      
         story.finish!
       end
