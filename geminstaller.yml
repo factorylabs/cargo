@@ -1,0 +1,7 @@
+gems:
+- name: hoe
+  version: '2.3.3'
+- name: newgem
+  version: '1.5.2'
+- name: pickler
+  version: '0.1.3'
